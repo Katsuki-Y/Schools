@@ -13,8 +13,13 @@
 #include <random>
 using namespace std;
 
-int SIZE = 10;
 
+
+
+/*int SIZE = 10;
+ 
+ 
+ //モンテカルロで使う関数
 double f(double *n) {
     double a = 0;
     for(int i = 0; i < SIZE ;i++){
@@ -27,14 +32,20 @@ double f(double *n) {
         return 0;
     }
 }
-/*double Tripzoid_Method(double a, double b,int n) {
+ 
+ 
+ //台形則
+double Tripzoid_Method(double a, double b,int n) {
     double t = (b - a) / n;
     double S = 0;
     for (double i = a; i < b; i += t) {
         S += (t / 6.0) * (func(a) + func(a + t) + 4 * func(a + (t / 2.0)));
+ //func()は上のf()を書き換えたからここにはないよ
+ //f(x)と同じ意味だから追加しといて
     }
     return S;
 }
+ //シンプソン則
 double Simpson_Method(double a, double b, int n) {
     double t = (b - a) / n;
     double S = 0;
@@ -54,7 +65,72 @@ double Simpson_Method(double a, double b, int n) {
 
 
 int main() {
-    double num = pow(10, 8);
+    
+    
+    //ここからダイクストラ
+    /*
+    double graph[6][6] = {
+        {0,        INFINITY, INFINITY, INFINITY, INFINITY, INFINITY},
+        {5,        0,        INFINITY, INFINITY, INFINITY, INFINITY},
+        {8,        2,        0,        INFINITY, 1,        1       },
+        {2,        INFINITY, 1,        0,        INFINITY, INFINITY},
+        {INFINITY, 1,        INFINITY, INFINITY, 0,        INFINITY},
+        {INFINITY, INFINITY, INFINITY, 3,        2,        0       }
+    };
+    
+    int P[6] = {0,0,0,0,0,0};
+    double v[6] = {0,INFINITY, INFINITY, INFINITY, INFINITY, INFINITY};
+    double v_kakutei[6] = {0, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY};
+    int init = 0;
+    int min = 100;
+    int min_k = 0;
+    bool inf_judge = 1;
+    
+    while(inf_judge)
+    {
+        for(int j = 0; j < 6; j++){
+            if(graph[j][init] != 0 && graph[j][init] != INFINITY){
+                v[j] = graph[j][init] + v_kakutei[init];
+                P[j] = init + 1;
+            }
+        }
+        for(int k = 0; k < 6; k++){
+            if(v[k] != 0){
+                if(min > v[k]){
+                    min = v[k];
+                    min_k = k;
+                }
+            }
+        }
+        v_kakutei[min_k] = min;
+        init = min_k;
+        v[min_k] = 0;
+        cout << init  + 1 << endl;
+        //cout << i + 1<< "回目" << endl;
+        cout <<"P ";
+        for(int k = 0; k < 6; k++){
+            cout << P[k]  << " ";
+        }
+        cout << endl << "v ";
+        for(int k = 0; k < 6; k++){
+            cout << v_kakutei[k]  << " ";
+        }
+        cout << endl;
+        min = 100;
+        min_k = 0;
+        inf_judge = 0;
+        for(int i = 0; i < 6; i++){
+            if(v_kakutei[i] == INFINITY){
+                inf_judge = 1;
+            }
+        }
+    }
+     */
+    
+    
+    
+    //モンテカルロ法 円
+    /*double num = pow(10, 8);
     double n[SIZE];
     double a = 0;
     double b = 1;
@@ -69,20 +145,19 @@ int main() {
     }
     cout << sum << endl;;
     sum = sum / num;
+    sum = sum * pow(2, SIZE);
     cout << sum << endl;
-    //genmitu = 8.0 * M_PI / 6.0 / 4.0 * 2;
-    //genmitu = 2 * 24 * pow(4 * M_PI, 4) / 362880 / pow(2, 9);
-    genmitu = pow(M_PI, 5) / 120　/ pow(2, 10);
+    //genmitu = M_PI; //3.14 2次元
+    //genmitu = 8.0 * M_PI / 6.0; //3次元
+    //genmitu = 2 * 24 * pow(4 * M_PI, 4) / 362880.0; //9次元
+    genmitu = pow(M_PI, 5) / 120.0; //10次元
     cout << genmitu << endl;
     cout << fabs(sum - genmitu) << endl;
     
-    
-    /*double n = 0;
+    double n = 0;
     double a = -1;
     double b = 1;
     double ans[2][12];
-    
-    
     
     for(int j = 0;j < 12;j++){
         n = pow(2, j + 1);
@@ -100,6 +175,7 @@ int main() {
    
 
     
+    //温度勾配
     /*double space = 0.005;
     double max_x = 2;
     double max_y = 1;
@@ -194,8 +270,6 @@ int main() {
             break;
         }
     }
-     
-     
     
     for(double j = 0;j<size_y;j++){
         cout << " " << tempe[j][1.0 / space] << endl;
